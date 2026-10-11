@@ -6,3 +6,8 @@ data/raw/
 data/bronze/
 data/silver/
 ~$*
+data/*.duckdb
+data/*.duckdb.wal
+transformacion/target/
+transformacion/logs/
+transformacion/.user.yml

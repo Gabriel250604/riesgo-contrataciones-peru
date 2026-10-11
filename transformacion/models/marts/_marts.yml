@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: fct_procesos
+    description: Un proceso de contratación publicado desde 2019 por fila, con sus totales adjudicados.
+    columns:
+      - name: ocid
+        description: Identificador OCDS del proceso.
+        data_tests: [unique, not_null]
+      - name: entidad_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_entidades')
+                field: entidad_id
+      - name: categoria
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [goods, services, works]
+      - name: metodo
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [open, direct, limited, selective]
+      - name: participantes
+        description: Participantes registrados, no necesariamente ofertas presentadas.
+      - name: valor_referencial_pen
+        description: Valor referencial en soles. Nulo cuando la entidad lo reservó o lo publicó en cero.
+
+  - name: fct_adjudicaciones
+    description: Una adjudicación por fila, con su proveedor y su monto en soles.
+    columns:
+      - name: adjudicacion_clave
+        data_tests: [unique, not_null]
+      - name: ocid
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('fct_procesos')
+                field: ocid
+      - name: tipo_proveedor
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [empresa, consorcio, extranjero]
+      - name: monto_pen
+        description: Monto adjudicado convertido a soles con el tipo de cambio publicado por el OECE.
+
+  - name: dim_entidades
+    description: Entidades compradoras con al menos un proceso desde 2019.
+    columns:
+      - name: entidad_id
+        data_tests: [unique, not_null]
+      - name: departamento
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [AMAZONAS, ANCASH, APURIMAC, AREQUIPA, AYACUCHO, CAJAMARCA, CALLAO, CUSCO,
+                         HUANCAVELICA, HUANUCO, ICA, JUNIN, LA LIBERTAD, LAMBAYEQUE, LIMA, LORETO,
+                         MADRE DE DIOS, MOQUEGUA, PASCO, PIURA, PUNO, SAN MARTIN, TACNA, TUMBES, UCAYALI]

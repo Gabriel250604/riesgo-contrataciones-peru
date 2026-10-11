@@ -1,0 +1,13 @@
+name: contrataciones
+version: "1.0.0"
+profile: contrataciones
+
+model-paths: ["models"]
+test-paths: ["tests"]
+
+models:
+  contrataciones:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

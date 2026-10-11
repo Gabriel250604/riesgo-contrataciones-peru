@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: Datos OCDS del OECE convertidos a Parquet por src/ingesta.py, sin transformar.
+    config:
+      external_location: "read_parquet('../data/bronze/{name}/*.parquet', union_by_name = true)"
+    tables:
+      - name: main
+        description: Un proceso de contratación por fila, en su última versión publicada.
+      - name: awards
+        description: Adjudicaciones de cada proceso.
+      - name: awards_suppliers
+        description: Proveedor adjudicado en cada adjudicación.
+      - name: awards_value_exchangeRates
+        description: Tipo de cambio a soles de las adjudicaciones en moneda extranjera.
+      - name: contracts
+        description: Contratos firmados.
+      - name: parties
+        description: Entidades compradoras de cada proceso, con su ubicación.

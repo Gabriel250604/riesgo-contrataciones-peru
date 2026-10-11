@@ -1,0 +1,7 @@
+contrataciones:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: ../data/contrataciones.duckdb
+      threads: 4
