@@ -89,6 +89,7 @@ def main():
     args = parser.parse_args()
 
     con = duckdb.connect()
+    fallidos = []
     for anio in range(args.desde, args.hasta + 1):
         if cargado(anio) and not args.forzar:
             print(f"{anio}: ya estaba cargado")
@@ -97,6 +98,9 @@ def main():
             procesar(anio, con, args.conservar)
         except urllib.error.URLError as error:
             print(f"{anio}: no se pudo descargar ({error})")
+            fallidos.append(anio)
+    if fallidos:
+        raise SystemExit(f"Años sin cargar: {', '.join(map(str, fallidos))}")
 
 
 if __name__ == "__main__":
