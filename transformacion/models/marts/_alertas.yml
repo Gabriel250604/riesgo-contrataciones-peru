@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: fct_alertas_proceso
+    description: >
+      Indicadores de riesgo por proceso, basados en la guía de alertas de integridad de Open Contracting
+      Partnership. Una alerta no prueba una irregularidad: indica un proceso que merece revisión.
+    columns:
+      - name: ocid
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_procesos')
+                field: ocid
+      - name: participante_unico
+        description: Proceso de un método competitivo con un solo participante registrado.
+      - name: plazo_corto
+        description: Plazo de consultas y observaciones menor a la mitad de la mediana de su método.
+      - name: proveedor_concentrado
+        description: El ganador concentra al menos el 25% de lo adjudicado por la entidad en ese año.
+      - name: igual_referencial
+        description: >
+          Monto adjudicado dentro del 0.5% del valor referencial. Es frecuente en procesos normales,
+          por eso se muestra como contexto y no suma al conteo de alertas.
+      - name: alertas
+        description: Cantidad de alertas del proceso, entre 0 y 3.
+
+  - name: fct_alertas_entidad
+    description: Resumen de alertas por entidad compradora.
+    columns:
+      - name: entidad_id
+        data_tests: [unique, not_null]
+      - name: participacion_directa
+        description: Proporción del monto adjudicado por la entidad mediante Contratación Directa.
+
+  - name: fct_alertas_proveedor
+    description: Resumen de procesos ganados y alertas por proveedor.
+    columns:
+      - name: proveedor_id
+        data_tests: [unique, not_null]

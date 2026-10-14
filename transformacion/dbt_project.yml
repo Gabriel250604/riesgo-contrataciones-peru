@@ -5,9 +5,21 @@ profile: contrataciones
 model-paths: ["models"]
 test-paths: ["tests"]
 
+flags:
+  send_anonymous_usage_stats: false
+
+vars:
+  min_procesos_metodo: 500
+  max_tasa_participante_unico: 0.10
+  min_procesos_entidad_anio: 10
+  min_procesos_proveedor: 3
+  min_participacion_proveedor: 0.25
+
 models:
   contrataciones:
     staging:
+      +materialized: view
+    intermediate:
       +materialized: view
     marts:
       +materialized: table

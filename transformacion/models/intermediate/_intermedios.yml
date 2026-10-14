@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: int_metodos
+    description: >
+      Estadísticas por método de contratación. Un método se considera competitivo si tiene al menos
+      min_procesos_metodo procesos con dato de participantes y en menos del max_tasa_participante_unico
+      de ellos hubo un solo participante. Así quedan fuera los métodos donde un participante único es
+      parte de su naturaleza, como la Contratación Directa.
+    columns:
+      - name: metodo_detalle
+        data_tests: [unique, not_null]
+
+  - name: int_proveedores_concentrados
+    description: >
+      Pares entidad, año y proveedor donde el proveedor ganó al menos min_procesos_proveedor procesos
+      y se llevó al menos min_participacion_proveedor del monto adjudicado por la entidad ese año.
+      Solo se evalúan entidades con al menos min_procesos_entidad_anio procesos adjudicados en el año.

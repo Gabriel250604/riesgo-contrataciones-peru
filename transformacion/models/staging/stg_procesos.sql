@@ -4,7 +4,7 @@ select
     buyer_id as entidad_id,
     trim(buyer_name) as entidad_nombre,
     tender_procurementMethod as metodo,
-    trim(tender_procurementMethodDetails) as metodo_detalle,
+    coalesce(nullif(trim(tender_procurementMethodDetails), ''), 'Sin especificar') as metodo_detalle,
     tender_mainProcurementCategory as categoria,
     trim(tender_title) as titulo,
     cast(substr(tender_datePublished, 1, 10) as date) as fecha_publicacion,
